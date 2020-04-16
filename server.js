@@ -1,7 +1,8 @@
 /* Setting things up. */
-var express = require('express'),
-    app = express(),   
-    Twit = require('twit'),
+let express = require( 'express' ),
+    app = express(),
+    CronJob = require( 'cron' ).CronJob,    
+    Twit = require( 'twit' ),
     config = {
     /* Be sure to update the .env file with your API keys. See how to get them: https://botwiki.org/tutorials/how-to-create-a-twitter-app */      
       twitter: {
@@ -11,25 +12,40 @@ var express = require('express'),
         access_token_secret: process.env.ACCESS_TOKEN_SECRET
       }
     },
-    T = new Twit(config.twitter);
+    T = new Twit( config.twitter );
 
-app.use(express.static('public'));
+app.use( express.static( 'public' ) );
 
-/* You can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet. */
+/*
+  If you have a Glitch subscription ( glitch.com/pricing ) and your app is Always On, you can use the cron package to run your bot automatically.
 
-app.all(`/${process.env.BOT_ENDPOINT}`, function(req, res){
+  Otherwise you can use cron-job.org, uptimerobot.com, or a similar site to hit your /BOT_ENDPOINT to wake up your app and make your Twitter bot tweet.
+*/
+
+app.all( `/${process.env.BOT_ENDPOINT}`, function( req, res ){
   /* The example below tweets out "Hello world!". */
-  T.post('statuses/update', { status: 'hello world 👋' }, function(err, data, response) {
-    if (err){
-      console.log('error!', err);
-      res.sendStatus(500);
+  T.post( 'statuses/update', { status: 'hello world 👋' }, function( err, data, response ) {
+    if ( err ){
+      console.log( 'error!', err );
+      res.sendStatus( 500 );
     }
     else{
-      res.sendStatus(200);
+      res.sendStatus( 200 );
     }
-  });
-});
+  } );
+} );
 
-var listener = app.listen(process.env.PORT, function(){
-  console.log('Your bot is running on port ' + listener.address().port);
-});
+let listener = app.listen( process.env.PORT, function(){
+  console.log( 'Your bot is running on port ' + listener.address().port );
+  
+  /*
+    If your app is Always On, you can use the cron package:
+  
+  */
+  let job = new CronJob( '*/5 * * * *', function() {
+    console.log( 'You will see this message every second' );
+  } );
+
+  job.start();
+  
+} );
