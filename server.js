@@ -19,7 +19,10 @@ app.use( express.static( 'public' ) );
 
   ( new CronJob( '0 */2 * * *', function() {
     
-    /* The example below tweets out "Hello world 👋" and the current date. */
+    /*
+    The example below tweets out "Hello world 👋" and the current date.
+    Check out https://www.npmjs.com/package/cron#available-cron-patterns to learn more about cron scheduling patterns.
+    */
 
     const date = new Date().toLocaleString();
 
