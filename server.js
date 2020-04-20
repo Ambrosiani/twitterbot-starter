@@ -15,14 +15,18 @@ const express = require( 'express' ),
       T = new Twit( config.twitter );
 
 app.use( express.static( 'public' ) );
-  /* Set up a new cron job to start tweeting automatically. */
+
+let listener = app.listen( process.env.PORT, function(){
+  console.log( 'Your bot is running on port ' + listener.address().port );
+
+  /*
+    Set up a new cron job to start tweeting automatically.
+    Check out https://www.npmjs.com/package/cron#available-cron-patterns to learn more about cron scheduling patterns.
+  */
 
   ( new CronJob( '0 */2 * * *', function() {
     
-    /*
-    The example below tweets out "Hello world 👋" and the current date.
-    Check out https://www.npmjs.com/package/cron#available-cron-patterns to learn more about cron scheduling patterns.
-    */
+    /* The example below tweets out "Hello world 👋" and the current date. */
 
     const date = new Date().toLocaleString();
 
@@ -35,7 +39,4 @@ app.use( express.static( 'public' ) );
       }
     } );
   } ) ).start();
-
-let listener = app.listen( process.env.PORT, function(){
-  console.log( 'Your bot is running on port ' + listener.address().port );
 } );
