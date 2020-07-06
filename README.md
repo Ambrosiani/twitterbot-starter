@@ -5,7 +5,7 @@ Glitch Twitter bot template
 
 This is a template for making creative Twitter bots with [Glitch](https://glitch.com/) and the [Twit](https://github.com/ttezel/twit) node.js library.
 
-This project requires a [paid Glitch subscription](https://glitch.com/pricing). For a version that uses a third party scheduler, check out the [twitterbot](https://glitch.com/edit/#!/twitterbot) project.
+This project requires a [paid Glitch subscription](https://glitch.com/pricing).
 
 ## A quick tutorial
 
